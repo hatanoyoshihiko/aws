@@ -14,14 +14,14 @@ for ID in $INSTANCE_IDS; do
     --query 'Reservations[*].Instances[*].Tags[?Key==`Name`].Value | [0][0]' \
     --output text 2>/dev/null)
 
-  # ステータス取得
+  # システムステータス、インスタンスステータス取得
   STATUS=$(aws ec2 describe-instance-status \
     --instance-ids "$ID" \
     --include-all-instances \
     --query 'InstanceStatuses[0].{SystemStatus:SystemStatus.Status, InstanceStatus:InstanceStatus.Status}' \
     --output text 2>/dev/null)
 
-  # EC2ステータス（Running など）取得
+  # インスタンスの起動状態（Running など）取得
   STATE=$(aws ec2 describe-instances \
     --instance-ids "$ID" \
     --query 'Reservations[0].Instances[0].State.Name' \
